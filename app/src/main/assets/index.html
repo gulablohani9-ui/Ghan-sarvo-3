@@ -4,92 +4,410 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ghan Sarvo 2</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0b1020;color:#eef2ff}
-header{padding:16px;background:#121a31;position:sticky;top:0;z-index:5;border-bottom:1px solid #26314f}
-h1{font-size:20px;margin:0 0 4px}.sub{font-size:12px;color:#aab6d3}
-nav{display:flex;gap:6px;overflow:auto;padding:8px;background:#0f162a;position:sticky;top:73px;z-index:4}
-nav button,.btn{border:1px solid #334263;background:#18233f;color:#eaf0ff;padding:9px 12px;border-radius:9px;white-space:nowrap}
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+ background:#0b1020;color:#eef2ff
+}
+header{
+ padding:16px;background:#121a31;position:sticky;top:0;z-index:20;
+ border-bottom:1px solid #26314f
+}
+h1{font-size:20px;margin:0 0 4px}
+h2{margin-top:4px}
+.sub{font-size:12px;color:#aab6d3}
+nav{
+ display:flex;gap:6px;overflow:auto;padding:8px;background:#0f162a;
+ position:sticky;top:73px;z-index:19
+}
+nav button,.btn{
+ border:1px solid #334263;background:#18233f;color:#eaf0ff;
+ padding:9px 12px;border-radius:9px;white-space:nowrap
+}
 nav button.active{background:#3157a6}
-main{max-width:1100px;margin:auto;padding:12px}.page{display:none}.page.active{display:block}
-.card{background:#121a31;border:1px solid #273554;border-radius:14px;padding:14px;margin:10px 0}
-label{font-size:12px;color:#aab6d3;display:block;margin-bottom:5px}input,select{width:100%;padding:10px;border-radius:9px;border:1px solid #354464;background:#0c1325;color:#fff}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:8px;border-bottom:1px solid #263451;text-align:left;white-space:nowrap}th{color:#b9c6e5}
-.badge{display:inline-block;padding:3px 7px;border-radius:99px;background:#22345d;margin:2px;font-size:11px}.good{background:#214d3d}.warn{background:#594a21}.bad{background:#5a2930}
-.small{font-size:12px;color:#aab6d3}.status{padding:8px;border-radius:9px;background:#10192e;color:#bcd0f5}
-.result{margin-top:10px}.planet{font-weight:700}.mono{font-family:ui-monospace,SFMono-Regular,monospace}
-.searchrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.check{display:flex;align-items:center;gap:8px}.check input{width:auto}
-@media(max-width:650px){.grid2,.grid3,.searchrow{grid-template-columns:1fr}.grid3{gap:8px}}
+main{max-width:1150px;margin:auto;padding:12px}
+.page{display:none}.page.active{display:block}
+.card{
+ background:#121a31;border:1px solid #273554;border-radius:14px;
+ padding:14px;margin:10px 0
+}
+label{font-size:12px;color:#aab6d3;display:block;margin-bottom:5px}
+input,select{
+ width:100%;padding:10px;border-radius:9px;border:1px solid #354464;
+ background:#0c1325;color:#fff
+}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.searchrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tablewrap{overflow:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:8px;border-bottom:1px solid #263451;text-align:left;vertical-align:top}
+th{color:#b9c6e5}
+.badge{
+ display:inline-block;padding:3px 7px;border-radius:99px;
+ background:#22345d;margin:2px;font-size:11px
+}
+.good{background:#214d3d}
+.warn{background:#594a21}
+.bad{background:#5a2930}
+.small{font-size:12px;color:#aab6d3}
+.status{padding:8px;border-radius:9px;background:#10192e;color:#bcd0f5}
+.result{margin-top:10px}
+.planet{font-weight:700}
+.mono{font-family:ui-monospace,SFMono-Regular,monospace}
+.check{display:flex;align-items:center;gap:8px;margin:8px 0}
+.check input{width:auto}
+.autocomplete{position:relative}
+.suggestions{
+ position:absolute;left:0;right:0;top:100%;z-index:100;
+ background:#111a30;border:1px solid #405174;border-radius:10px;
+ max-height:260px;overflow:auto;display:none
+}
+.suggestion{
+ padding:10px;border-bottom:1px solid #293754;cursor:pointer
+}
+.suggestion:hover{background:#21345c}
+.kpi{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px
+}
+.kpi div{
+ background:#0d162a;border:1px solid #293858;border-radius:10px;padding:10px
+}
+.yes{color:#77e0a5;font-weight:700}
+.no{color:#ff9a9a;font-weight:700}
+.section-title{
+ margin:14px 0 7px;font-size:15px;font-weight:700;color:#cbd7f2
+}
+hr{border:0;border-top:1px solid #293754;margin:14px 0}
+@media(max-width:700px){
+ .grid2,.grid3,.searchrow,.kpi{grid-template-columns:1fr}
+ nav{top:70px}
+}
+@media print{
+ body{background:white;color:black}
+ header,nav,.no-print{display:none!important}
+ .page{display:none!important}
+ #p5{display:block!important}
+ .card{background:white;color:black;border:1px solid #aaa}
+}
 </style>
 </head>
+
 <body>
-<header><h1>☸ Ghan Sarvo 2 — Vedic Transit & Vedha</h1><div class="sub">Sidereal Lahiri • Swiss Ephemeris • 27 Nakshatra + Abhijit SBC layout • live calculation</div></header>
+
+<header>
+<h1>☸ Ghan Sarvo 2 — Vedic Transit & Vedha</h1>
+<div class="sub">
+Sidereal Lahiri • Swiss Ephemeris • 27 Nakshatra + Abhijit SBC layout • Live calculation
+</div>
+</header>
+
 <nav id="nav"></nav>
+
 <main>
+
+<!-- ================= SCREEN 1 ================= -->
 <section class="page active" id="p1">
+
 <div class="card">
 <h2>1. Date / Time / Place</h2>
+
 <div class="grid2">
-<div><label>Date</label><input id="date" type="date"></div>
-<div><label>Time</label><input id="time" type="time" step="1"></div>
+<div>
+<label>Date</label>
+<input id="date" type="date">
 </div>
+
+<div>
+<label>Time</label>
+<input id="time" type="time" step="1">
+</div>
+</div>
+
 <div class="grid2" style="margin-top:10px">
-<div><label>Place</label><input id="place" placeholder="GPS permission se automatic"></div>
-<div><label>Timezone</label><input id="tz" value="Asia/Kolkata"></div>
+
+<div class="autocomplete">
+<label>Place — 3 letters ke baad search</label>
+<input id="place" autocomplete="off"
+placeholder="Jodhpur, Jaipur, Delhi...">
+<div id="suggestions" class="suggestions"></div>
 </div>
+
+<div>
+<label>Timezone</label>
+<input id="tz" value="Asia/Kolkata">
+</div>
+
+</div>
+
 <div class="grid3" style="margin-top:10px">
-<div><label>Latitude</label><input id="lat" type="number" step="0.000001"></div>
-<div><label>Longitude</label><input id="lon" type="number" step="0.000001"></div>
-<div style="display:flex;align-items:end"><button class="btn" id="gps">📍 Auto Detect Place</button></div>
+
+<div>
+<label>Latitude</label>
+<input id="lat" type="number" step="0.000001">
 </div>
-<div style="margin-top:10px"><button class="btn" id="calc">Calculate Live Transit</button></div>
-<div class="status" id="status">API ready. GPS button dabakar location permission dein.</div>
+
+<div>
+<label>Longitude</label>
+<input id="lon" type="number" step="0.000001">
 </div>
-<div class="card" id="snapshot"><b>Transit snapshot</b><div class="small">Calculate dabane ke baad yahan graha, rashi, nakshatra aur pada aayega.</div></div>
+
+<div style="display:flex;align-items:end">
+<button class="btn" id="gps">📍 Auto Detect Place</button>
+</div>
+
+</div>
+
+<div style="margin-top:10px">
+<button class="btn" id="calc">Calculate Live Transit</button>
+</div>
+
+<div class="status" id="status">
+Place select karein ya GPS dabayein.
+</div>
+</div>
+
+<div class="card" id="snapshot">
+<b>Transit snapshot</b>
+<div class="small">
+Calculate dabane ke baad graha, rashi, nakshatra aur pada aayega.
+</div>
+</div>
+
 </section>
 
+
+<!-- ================= SCREEN 2 ================= -->
 <section class="page" id="p2">
-<div class="card"><h2>2. Daily Sarvatobhadra Vedha</h2><div class="small">Har graha ke current nakshatra se classical 3 vedha rays nikali jaati hain. Motion-rule ke hisab se active direction bhi dikhaya jayega.</div></div>
+
+<div class="card">
+<h2>2. Daily Sarvatobhadra Vedha</h2>
+<div class="small">
+Current transit ke according planet, Nakshatra/Pada aur Sarvatobhadra Vedha targets.
+</div>
+</div>
+
 <div class="card tablewrap" id="daily"></div>
+
 </section>
 
+
+<!-- ================= SCREEN 3 ================= -->
 <section class="page" id="p3">
-<div class="card"><h2>3. Weekly Detail</h2><div class="grid2"><div><label>Week start</label><input id="week" type="date"></div><div style="display:flex;align-items:end"><button class="btn" id="weeklyBtn">Generate 7-day detail</button></div></div></div>
+
+<div class="card">
+
+<h2>3. Weekly Detail</h2>
+
+<div class="grid2">
+
+<div>
+<label>Week start</label>
+<input id="week" type="date">
+</div>
+
+<div style="display:flex;align-items:end">
+<button class="btn" id="weeklyBtn">
+Generate 7-day detail
+</button>
+</div>
+
+</div>
+</div>
+
 <div class="card tablewrap" id="weekly"></div>
+
 </section>
 
+
+<!-- ================= SCREEN 4 ================= -->
 <section class="page" id="p4">
-<div class="card"><h2>4. Future Transit / Date Search</h2><div class="grid2"><div><label>Date</label><input id="futureDate" type="date"></div><div><label>Time</label><input id="futureTime" type="time" value="12:00"></div></div><div style="margin-top:10px"><button class="btn" id="futureBtn">Calculate</button></div></div>
+
+<div class="card">
+
+<h2>4. Future Transit / Date Search</h2>
+
+<div class="grid2">
+
+<div>
+<label>Date</label>
+<input id="futureDate" type="date">
+</div>
+
+<div>
+<label>Time</label>
+<input id="futureTime" type="time" value="12:00">
+</div>
+
+</div>
+
+<div style="margin-top:10px">
+<button class="btn" id="futureBtn">Calculate</button>
+</div>
+
+</div>
+
 <div class="card tablewrap" id="future"></div>
+
 </section>
 
+
+<!-- ================= SCREEN 5 ================= -->
 <section class="page" id="p5">
-<div class="card"><h2>5. Planet-to-Planet Vedha Search</h2>
+
+<div class="card">
+
+<h2>5. Planet-to-Planet Vedha Search</h2>
+
 <div class="searchrow">
-<div><label>Planet 1</label><select id="s1"></select></div>
-<div><label>Planet 2</label><select id="s2"></select></div>
+
+<div>
+<label>Planet 1</label>
+<select id="s1"></select>
 </div>
+
+<div>
+<label>Planet 2</label>
+<select id="s2"></select>
+</div>
+
+</div>
+
 <div class="grid2" style="margin-top:10px">
-<div><label>Search from</label><input id="from" type="date"></div>
-<div><label>Search to</label><input id="to" type="date"></div>
+
+<div>
+<label>Search from</label>
+<input id="from" type="date">
 </div>
-<div class="check" style="margin:10px 0"><input id="padaOnly" type="checkbox"><label style="margin:0">Sirf Pada-to-Pada hit dikhaye</label></div>
-<button class="btn" id="searchBtn">Search Vedha</button>
+
+<div>
+<label>Search to</label>
+<input id="to" type="date">
 </div>
+
+</div>
+
+<div class="section-title">Filters</div>
+
+<div class="grid2">
+
+<label class="check">
+<input id="filterVedha" type="checkbox">
+Vedha YES
+</label>
+
+<label class="check">
+<input id="filterMutual" type="checkbox">
+Mutual Vedha YES
+</label>
+
+<label class="check">
+<input id="filterSamePada" type="checkbox">
+Same Nakshatra/Pada
+</label>
+
+<label class="check">
+<input id="filterD1" type="checkbox">
+D1 Drishti YES
+</label>
+
+<label class="check">
+<input id="filterMutualD1" type="checkbox">
+Mutual D1 Drishti YES
+</label>
+
+<label class="check">
+<input id="filterSameRashi" type="checkbox">
+Same Rashi YES
+</label>
+
+</div>
+
+<div style="margin-top:10px">
+
+<button class="btn" id="searchBtn">
+🔎 Search Exact Transit
+</button>
+
+<button class="btn" id="pdfBtn">
+📄 PDF Report
+</button>
+
+</div>
+
+</div>
+
 <div class="card tablewrap" id="searchResult"></div>
+
 </section>
+
 </main>
 
+
 <script>
-const API="https://swiss-ephemeris-api-2m5g.onrender.com/v1/chart";
+
+/* =========================================================
+   API
+========================================================= */
+
+const API =
+"https://swiss-ephemeris-api-2m5g.onrender.com/v1/chart";
+
+
+/* =========================================================
+   PLANETS
+========================================================= */
+
 const planets=[
- ["Sun","sun"],["Moon","moon"],["Mars","mars"],["Mercury","mercury"],["Jupiter","jupiter"],["Venus","venus"],["Saturn","saturn"],["Rahu","mean_node"],["Ketu","mean_south_node"]
+ ["Sun","sun"],
+ ["Moon","moon"],
+ ["Mars","mars"],
+ ["Mercury","mercury"],
+ ["Jupiter","jupiter"],
+ ["Venus","venus"],
+ ["Saturn","saturn"],
+ ["Rahu","mean_node"],
+ ["Ketu","ketu"]
 ];
-const nak=["Ashwini","Bharani","Krittika","Rohini","Mrigashira","Ardra","Punarvasu","Pushya","Ashlesha","Magha","Purva Phalguni","Uttara Phalguni","Hasta","Chitra","Swati","Vishakha","Anuradha","Jyeshtha","Mula","Purva Ashadha","Uttara Ashadha","Shravana","Dhanishtha","Shatabhisha","Purva Bhadrapada","Uttara Bhadrapada","Revati"];
-const displayNak={"Mrigashira":"Mrigashira","Purva Phalguni":"Purva Phalguni","Uttara Phalguni":"Uttara Phalguni","Purva Ashadha":"Purva Ashadha","Uttara Ashadha":"Uttara Ashadha","Purva Bhadrapada":"Purva Bhadrapada","Uttara Bhadrapada":"Uttara Bhadrapada"};
-const signs=["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
-// Exact published 9x9 Sarvatobhadra layout. Outer ring has 28 nakshatras incl. Abhijit.
+
+const planetNames={
+ sun:"Sun",
+ moon:"Moon",
+ mars:"Mars",
+ mercury:"Mercury",
+ jupiter:"Jupiter",
+ venus:"Venus",
+ saturn:"Saturn",
+ mean_node:"Rahu",
+ ketu:"Ketu"
+};
+
+
+/* =========================================================
+   NAKSHATRA
+========================================================= */
+
+const nak=[
+"Ashwini","Bharani","Krittika","Rohini","Mrigashira","Ardra",
+"Punarvasu","Pushya","Ashlesha","Magha","Purva Phalguni",
+"Uttara Phalguni","Hasta","Chitra","Swati","Vishakha",
+"Anuradha","Jyeshtha","Mula","Purva Ashadha","Uttara Ashadha",
+"Shravana","Dhanishtha","Shatabhisha","Purva Bhadrapada",
+"Uttara Bhadrapada","Revati"
+];
+
+const signs=[
+"Aries","Taurus","Gemini","Cancer","Leo","Virgo",
+"Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"
+];
+
+
+/* =========================================================
+   SARVATOBHADRA 9x9
+========================================================= */
+
 const G=[
 ["ई","Dhanishtha","Shatabhisha","Purva Bhadrapada","Uttara Bhadrapada","Revati","Ashwini","Bharani","अ"],
 ["Shravana","ऋ","ग","स","द","च","ल","उ","Krittika"],
@@ -101,119 +419,1564 @@ const G=[
 ["Anuradha","ऋ","त","र","प","ट","म","ऊ","Ashlesha"],
 ["इ","Vishakha","Swati","Chitra","Hasta","Uttara Phalguni","Purva Phalguni","Magha","आ"]
 ];
-const pos={}; G.forEach((r,i)=>r.forEach((v,j)=>pos[v]=[i,j]));
-const nakGrid=nak.concat(["Abhijit"]);
-const gridNakNames=new Set(nakGrid);
+
+const pos={};
+
+G.forEach((r,i)=>{
+ r.forEach((v,j)=>{
+  pos[v]=[i,j];
+ });
+});
+
+const gridNakNames =
+new Set(nak.concat(["Abhijit"]));
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 function nav(){
- const labels=["1 Date/Place","2 Daily Vedha","3 Weekly","4 Future","5 Search"];
- document.getElementById("nav").innerHTML=labels.map((x,i)=>`<button data-p="${i+1}" class="${i===0?'active':''}">${x}</button>`).join("");
- document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById("p"+b.dataset.p).classList.add("active")});
-}
-nav();
-const today=new Date();
-const iso=d=>{let z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
-date.value=iso(today);time.value=today.toTimeString().slice(0,8);week.value=iso(today);futureDate.value=iso(today);
-from.value=iso(today);let toD=new Date(today);toD.setDate(toD.getDate()+30);to.value=iso(toD);
-planets.forEach(p=>{s1.innerHTML+=`<option value="${p[1]}">${p[0]}</option>`;s2.innerHTML+=`<option value="${p[1]}">${p[0]}</option>`});s2.value="saturn";
 
-function qdate(d,t){return `${d}T${t||"12:00:00"}`;}
+ const labels=[
+ "1 Date/Place",
+ "2 Daily Vedha",
+ "3 Weekly",
+ "4 Future",
+ "5 Planet Search"
+ ];
+
+ nav.innerHTML=labels.map((x,i)=>
+ `<button data-p="${i+1}"
+ class="${i===0?"active":""}">${x}</button>`
+ ).join("");
+
+ document.querySelectorAll("nav button").forEach(b=>{
+
+  b.onclick=()=>{
+
+   document.querySelectorAll("nav button")
+   .forEach(x=>x.classList.remove("active"));
+
+   b.classList.add("active");
+
+   document.querySelectorAll(".page")
+   .forEach(x=>x.classList.remove("active"));
+
+   document
+   .getElementById("p"+b.dataset.p)
+   .classList.add("active");
+
+  };
+
+ });
+
+}
+
+nav();
+
+
+/* =========================================================
+   DATE DEFAULTS
+========================================================= */
+
+const now=new Date();
+
+function iso(d){
+
+ const z=
+ new Date(
+  d.getTime()-
+  d.getTimezoneOffset()*60000
+ );
+
+ return z.toISOString().slice(0,10);
+}
+
+date.value=iso(now);
+time.value=now.toTimeString().slice(0,8);
+
+week.value=iso(now);
+futureDate.value=iso(now);
+
+from.value=iso(now);
+
+const toDate=new Date(now);
+toDate.setDate(toDate.getDate()+30);
+to.value=iso(toDate);
+
+
+/* =========================================================
+   PLANET SELECTS
+========================================================= */
+
+planets.forEach(p=>{
+
+ s1.innerHTML +=
+ `<option value="${p[1]}">${p[0]}</option>`;
+
+ s2.innerHTML +=
+ `<option value="${p[1]}">${p[0]}</option>`;
+
+});
+
+s1.value="moon";
+s2.value="saturn";
+
+
+/* =========================================================
+   PLACE AUTOCOMPLETE
+========================================================= */
+
+let placeTimer=null;
+
+place.addEventListener("input",()=>{
+
+ clearTimeout(placeTimer);
+
+ const q=place.value.trim();
+
+ if(q.length<3){
+  suggestions.style.display="none";
+  suggestions.innerHTML="";
+  return;
+ }
+
+ placeTimer=setTimeout(()=>{
+  searchPlaces(q);
+ },350);
+
+});
+
+
+async function searchPlaces(q){
+
+ suggestions.style.display="block";
+ suggestions.innerHTML=
+ `<div class="suggestion">Searching...</div>`;
+
+ try{
+
+  const url=
+  "https://nominatim.openstreetmap.org/search"+
+  "?format=jsonv2"+
+  "&addressdetails=1"+
+  "&limit=7"+
+  "&accept-language=en"+
+  "&q="+encodeURIComponent(q);
+
+  const r=await fetch(url,{
+   headers:{Accept:"application/json"}
+  });
+
+  if(!r.ok)throw Error("Place search failed");
+
+  const data=await r.json();
+
+  if(!data.length){
+
+   suggestions.innerHTML=
+   `<div class="suggestion">No place found</div>`;
+
+   return;
+  }
+
+  suggestions.innerHTML=
+  data.map((x,i)=>{
+
+   const safeName=
+   (x.display_name||"").replace(/'/g,"&#39;");
+
+   return `
+   <div class="suggestion"
+    data-lat="${x.lat}"
+    data-lon="${x.lon}"
+    data-name="${safeName}">
+    <b>${x.name||x.display_name}</b>
+    <div class="small">${x.display_name}</div>
+   </div>`;
+
+  }).join("");
+
+  suggestions
+  .querySelectorAll(".suggestion")
+  .forEach(el=>{
+
+   el.onclick=()=>{
+
+    place.value=
+    el.dataset.name;
+
+    lat.value=
+    Number(el.dataset.lat).toFixed(6);
+
+    lon.value=
+    Number(el.dataset.lon).toFixed(6);
+
+    /*
+      India ke liye default timezone.
+      Baaki places ke liye browser timezone fallback.
+    */
+
+    const selectedLat=
+    Number(el.dataset.lat);
+
+    const selectedLon=
+    Number(el.dataset.lon);
+
+    if(
+      selectedLat>=8 &&
+      selectedLat<=37 &&
+      selectedLon>=68 &&
+      selectedLon<=98
+    ){
+      tz.value="Asia/Kolkata";
+    }else{
+      tz.value=
+      Intl.DateTimeFormat()
+      .resolvedOptions().timeZone ||
+      "UTC";
+    }
+
+    suggestions.style.display="none";
+
+    status.textContent=
+    "Place selected. Latitude/Longitude loaded.";
+
+   };
+
+  });
+
+ }catch(e){
+
+  suggestions.innerHTML=
+  `<div class="suggestion">
+   Place search error: ${e.message}
+  </div>`;
+
+ }
+
+}
+
+
+/* =========================================================
+   CLOSE SUGGESTIONS
+========================================================= */
+
+document.addEventListener("click",e=>{
+
+ if(
+  !e.target.closest(".autocomplete")
+ ){
+  suggestions.style.display="none";
+ }
+
+});
+
+
+/* =========================================================
+   API HELPERS
+========================================================= */
+
+function qdate(d,t){
+ return `${d}T${t||"12:00:00"}`;
+}
+
+const cache=new Map();
+
 async function chart(d,t){
- const la=parseFloat(lat.value)||20.5937, lo=parseFloat(lon.value)||78.9629;
- const u=new URL(API);u.searchParams.set("datetime",qdate(d,t));u.searchParams.set("tz",tz.value||"Asia/Kolkata");u.searchParams.set("lat",la);u.searchParams.set("lon",lo);u.searchParams.set("ayanamsha","lahiri");u.searchParams.set("bodies","sun,moon,mars,mercury,jupiter,venus,saturn,mean_node,mean_south_node");
- const r=await fetch(u); if(!r.ok) throw Error("Ephemeris API error "+r.status); return r.json();
+
+ const key=d+"|"+t;
+
+ if(cache.has(key))
+ return cache.get(key);
+
+ const u=new URL(API);
+
+ u.searchParams.set(
+  "datetime",
+  qdate(d,t)
+ );
+
+ u.searchParams.set(
+  "tz",
+  tz.value||"Asia/Kolkata"
+ );
+
+ u.searchParams.set(
+  "ayanamsha",
+  "lahiri"
+ );
+
+ /*
+  IMPORTANT:
+  Ketu API se request nahi.
+  mean_node se Ketu derive hoga.
+ */
+
+ u.searchParams.set(
+  "bodies",
+  "sun,moon,mars,mercury,jupiter,venus,saturn,mean_node"
+ );
+
+ const r=await fetch(u,{
+  headers:{Accept:"application/json"}
+ });
+
+ if(!r.ok)
+ throw Error("Swiss Ephemeris API HTTP "+r.status);
+
+ const data=await r.json();
+
+ cache.set(key,data);
+
+ return data;
 }
+
+
+/* =========================================================
+   KETU DERIVATION
+========================================================= */
+
+function norm360(x){
+
+ return ((Number(x)%360)+360)%360;
+
+}
+
+function bodyLon(data,key){
+
+ const b=(data.bodies||[])
+ .find(x=>
+  x.key===key||
+  x.name===key
+ );
+
+ if(!b)return null;
+
+ let x=
+ b.sidereal?.longitude ??
+ b.sidereal_longitude ??
+ b.longitude;
+
+ return x==null?null:Number(x);
+}
+
+
+/* =========================================================
+   NAKSHATRA / PADA
+========================================================= */
+
+const NAK_SIZE=360/27;
+const PADA_SIZE=360/108;
+
 function nakPada(lon){
- lon=((lon%360)+360)%360;let x=lon/(360/27),i=Math.floor(x),f=x-i;let pada=Math.floor(f*4)+1;
- return {name:nak[i],index:i,pada,degree:lon%13.3333333333};
+
+ lon=norm360(lon);
+
+ const totalPada=
+ Math.floor(lon/PADA_SIZE);
+
+ const index=
+ Math.floor(lon/NAK_SIZE);
+
+ const pada=
+ (totalPada%4)+1;
+
+ const signIndex=
+ Math.floor(lon/30);
+
+ const signDegree=
+ lon%30;
+
+ return {
+  name:nak[index],
+  index,
+  pada,
+  sign:signs[signIndex],
+  signIndex,
+  signDegree,
+  longitude:lon
+ };
+
 }
-function enrich(b){
- const x=b.sidereal?.longitude ?? b.longitude ?? b.sidereal_longitude ?? b.longitude_sidereal;
- const np=nakPada(x);return {...b,lon:x,nak:np.name,pada:np.pada};
+
+
+/* =========================================================
+   NORMALIZE BODIES
+========================================================= */
+
+function getSpeed(b){
+
+ return Number(
+  b.sidereal?.speed ??
+  b.speed ??
+  0
+ );
+
 }
-function rows(data){
- const bs=(data.bodies||[]).map(enrich);
- return bs.map(b=>{let n=gridNakNames.has(b.nak)?b.nak:null;return {...b,grid:n?pos[n]:null};});
+
+function getRetro(b){
+
+ if(typeof b.retrograde==="boolean")
+ return b.retrograde;
+
+ return getSpeed(b)<0;
+
 }
-function fmt(b){return `${b.nak} • Pada ${b.pada}`;}
-function motion(b){
- const sp=b.sidereal?.speed??b.speed??0;
- if(Math.abs(sp)<0.02) return "Stationary / slow";
- return sp<0?"Retrograde":"Direct";
-}
-// Rays from the exact 9x9 published layout: straight + NW/SE and NE/SW diagonals.
-function rays(name){
- const p=pos[name];if(!p)return [];
- const [r,c]=p, out=new Set();
- for(let j=0;j<9;j++)if(j!==c)out.add(G[r][j]);
- for(let i=0;i<9;i++)if(i!==r)out.add(G[i][c]);
- for(let k=1;k<9;k++){if(r-k>=0&&c-k>=0)out.add(G[r-k][c-k]);if(r+k<9&&c+k<9)out.add(G[r+k][c+k]);if(r-k>=0&&c+k<9)out.add(G[r-k][c+k]);if(r+k<9&&c-k>=0)out.add(G[r+k][c-k]);}
- return [...out];
-}
-function nakTargets(name){return rays(name).filter(x=>gridNakNames.has(x));}
-function activeTargets(b){
- const all=nakTargets(b.nak); const m=motion(b);
- // Classical motion-dependent reading: normal/direct = front; fast/direct = diagonal;
- // retrograde = reverse diagonal. Sun/Moon/nodes are shown with all three rays.
- if(["sun","moon","mean_node","mean_south_node"].includes(b.key)) return all;
- return all;
-}
-function bodyKey(b){return (b.key||b.name||b.planet||"").toLowerCase();}
+
+
 function normalizeBodies(data){
- return rows(data).map(b=>{b.key=bodyKey(b);return b});
+
+ const result=[];
+
+ for(const b of (data.bodies||[])){
+
+  const key=
+  (b.key||b.name||"").toLowerCase();
+
+  if(key==="mean_node"){
+
+   const rahuLon=
+   bodyLon(data,"mean_node");
+
+   if(rahuLon!=null){
+
+    const p=
+    nakPada(rahuLon);
+
+    result.push({
+     ...b,
+     key:"mean_node",
+     name:"Rahu",
+     lon:rahuLon,
+     nak:p.name,
+     pada:p.pada,
+     sign:p.sign,
+     signIndex:p.signIndex,
+     signDegree:p.signDegree,
+     speed:getSpeed(b),
+     retro:getRetro(b)
+    });
+
+    const ketuLon=
+    norm360(rahuLon+180);
+
+    const kp=
+    nakPada(ketuLon);
+
+    result.push({
+     key:"ketu",
+     name:"Ketu",
+     lon:ketuLon,
+     nak:kp.name,
+     pada:kp.pada,
+     sign:kp.sign,
+     signIndex:kp.signIndex,
+     signDegree:kp.signDegree,
+     speed:-getSpeed(b),
+     retro:getRetro(b)
+    });
+
+   }
+
+   continue;
+  }
+
+  const lon=
+  bodyLon(data,key);
+
+  if(lon==null)continue;
+
+  const p=
+  nakPada(lon);
+
+  result.push({
+   ...b,
+   key,
+   name:planetNames[key]||b.name||key,
+   lon,
+   nak:p.name,
+   pada:p.pada,
+   sign:p.sign,
+   signIndex:p.signIndex,
+   signDegree:p.signDegree,
+   speed:getSpeed(b),
+   retro:getRetro(b)
+  });
+
+ }
+
+ return result;
+
 }
-function targetDetail(b){
- const all=activeTargets(b), arr=[];
- for(const t of all){let [r,c]=pos[t];let onPada=(t===b.nak);arr.push({target:t,pada:undefined});}
- return arr;
+
+
+/* =========================================================
+   FORMAT
+========================================================= */
+
+function fmt(b){
+
+ return `${b.nak} • Pada ${b.pada}`;
+
 }
-function renderSnapshot(bs){
- snapshot.innerHTML="<b>Transit snapshot</b>"+bs.map(b=>`<div class="card"><span class="planet">${b.name||b.key}</span> — ${fmt(b)} — ${signs[Math.floor(b.lon/30)]} ${((b.lon%30)+30)%30.toFixed?(((b.lon%30)+30)%30).toFixed(2):""}° — ${motion(b)}</div>`).join("");
+
+function degreeFmt(b){
+
+ return `${b.sign} ${b.signDegree.toFixed(2)}°`;
+
 }
-function renderDaily(bs){
- let html="<table><thead><tr><th>Planet</th><th>Current</th><th>Motion</th><th>Vedha Nakshatra(s)</th></tr></thead><tbody>";
- bs.forEach(b=>{const ts=nakTargets(b.nak);html+=`<tr><td>${b.name||b.key}</td><td>${fmt(b)}</td><td>${motion(b)}</td><td>${ts.map(t=>`<span class="badge">${t}</span>`).join("")}</td></tr>`});
- html+="</tbody></table>";daily.innerHTML=html;
+
+function motion(b){
+
+ if(Math.abs(b.speed)<0.001)
+ return "Stationary";
+
+ return b.speed<0?
+ "Retrograde":
+ "Direct";
+
 }
-async function calculate(d=date.value,t=time.value){
- status.textContent="Live Swiss Ephemeris calculation...";
- try{const data=await chart(d,t);const bs=normalizeBodies(data);renderSnapshot(bs);renderDaily(bs);window.last=bs;status.textContent="Live calculation complete. Lahiri sidereal positions loaded.";return bs}
- catch(e){status.textContent="Error: "+e.message;throw e}
+
+
+/* =========================================================
+   SARVATOBHADRA RAYS
+========================================================= */
+
+function rays(name){
+
+ const p=pos[name];
+
+ if(!p)return[];
+
+ const [r,c]=p;
+ const out=new Set();
+
+ for(let j=0;j<9;j++){
+
+  if(j!==c)
+  out.add(G[r][j]);
+
+ }
+
+ for(let i=0;i<9;i++){
+
+  if(i!==r)
+  out.add(G[i][c]);
+
+ }
+
+ for(let k=1;k<9;k++){
+
+  if(r-k>=0&&c-k>=0)
+  out.add(G[r-k][c-k]);
+
+  if(r+k<9&&c+k<9)
+  out.add(G[r+k][c+k]);
+
+  if(r-k>=0&&c+k<9)
+  out.add(G[r-k][c+k]);
+
+  if(r+k<9&&c-k>=0)
+  out.add(G[r+k][c-k]);
+
+ }
+
+ return [...out];
+
 }
-calc.onclick=()=>calculate();
-gps.onclick=()=>{
- if(!navigator.geolocation){status.textContent="Browser geolocation unavailable.";return}
- status.textContent="GPS permission maang raha hai...";
- navigator.geolocation.getCurrentPosition(p=>{lat.value=p.coords.latitude.toFixed(6);lon.value=p.coords.longitude.toFixed(6);place.value=`GPS ${p.coords.latitude.toFixed(4)}, ${p.coords.longitude.toFixed(4)}`;status.textContent="Location detected. Ab Calculate dabayein."},e=>status.textContent="Location permission/error: "+e.message,{enableHighAccuracy:true,timeout:10000});
+
+function nakTargets(name){
+
+ return rays(name)
+ .filter(x=>gridNakNames.has(x));
+
+}
+
+
+/* =========================================================
+   VEDHA RELATION
+========================================================= */
+
+function vedha(a,b){
+
+ if(!a||!b)return false;
+
+ return nakTargets(a.nak)
+ .includes(b.nak);
+
+}
+
+
+/* =========================================================
+   D1 ASPECTS
+========================================================= */
+
+const D1_ASPECTS={
+
+ sun:[7],
+ moon:[7],
+ mars:[4,7,8],
+ mercury:[7],
+ jupiter:[5,7,9],
+ venus:[7],
+ saturn:[3,7,10],
+ mean_node:[5,7,9],
+ ketu:[5,7,9]
+
 };
+
+
+function houseDistance(a,b){
+
+ /*
+  1 = same sign
+  2 = next sign
+  ...
+  12 = previous sign
+ */
+
+ return ((b.signIndex-a.signIndex+12)%12)+1;
+
+}
+
+
+function d1Aspect(a,b){
+
+ const houses=
+ D1_ASPECTS[a.key]||
+ [7];
+
+ return houses.includes(
+  houseDistance(a,b)
+ );
+
+}
+
+
+/* =========================================================
+   COMPLETE RELATION
+========================================================= */
+
+function relation(a,b){
+
+ const aVedha=
+ vedha(a,b);
+
+ const bVedha=
+ vedha(b,a);
+
+ const aD1=
+ d1Aspect(a,b);
+
+ const bD1=
+ d1Aspect(b,a);
+
+ return {
+
+  aVedha,
+  bVedha,
+
+  mutualVedha:
+  aVedha&&bVedha,
+
+  sameRashi:
+  a.signIndex===b.signIndex,
+
+  sameNak:
+  a.nak===b.nak,
+
+  samePada:
+  a.nak===b.nak&&a.pada===b.pada,
+
+  aD1,
+  bD1,
+
+  mutualD1:
+  aD1&&bD1
+
+ };
+
+}
+
+
+/* =========================================================
+   SNAPSHOT
+========================================================= */
+
+function renderSnapshot(bs){
+
+ snapshot.innerHTML=
+ `<b>Transit snapshot</b>`+
+ bs.map(b=>`
+
+ <div class="card">
+
+ <span class="planet">${b.name}</span>
+
+ — ${fmt(b)}
+
+ — ${degreeFmt(b)}
+
+ — ${motion(b)}
+
+ </div>
+
+ `).join("");
+
+}
+
+
+/* =========================================================
+   DAILY
+========================================================= */
+
+function renderDaily(bs){
+
+ let html=`
+
+ <table>
+ <thead>
+ <tr>
+ <th>Planet</th>
+ <th>Rashi</th>
+ <th>Nakshatra</th>
+ <th>Pada</th>
+ <th>Motion</th>
+ <th>Vedha Targets</th>
+ </tr>
+ </thead>
+ <tbody>`;
+
+ bs.forEach(b=>{
+
+  const targets=
+  nakTargets(b.nak);
+
+  html+=`
+
+  <tr>
+
+  <td>${b.name}</td>
+
+  <td>${b.sign}</td>
+
+  <td>${b.nak}</td>
+
+  <td>${b.pada}</td>
+
+  <td>${motion(b)}</td>
+
+  <td>
+  ${targets.map(x=>
+   `<span class="badge">${x}</span>`
+  ).join("")}
+  </td>
+
+  </tr>`;
+
+ });
+
+ html+=`</tbody></table>`;
+
+ daily.innerHTML=html;
+
+}
+
+
+/* =========================================================
+   CALCULATE
+========================================================= */
+
+async function calculate(
+ d=date.value,
+ t=time.value
+){
+
+ status.textContent=
+ "Live Swiss Ephemeris calculation...";
+
+ try{
+
+  const data=
+  await chart(d,t);
+
+  const bs=
+  normalizeBodies(data);
+
+  renderSnapshot(bs);
+  renderDaily(bs);
+
+  window.last=bs;
+
+  status.textContent=
+  "Live calculation complete.";
+
+  return bs;
+
+ }catch(e){
+
+  status.textContent=
+  "Error: "+e.message;
+
+  throw e;
+
+ }
+
+}
+
+calc.onclick=()=>calculate();
+
+
+/* =========================================================
+   GPS
+========================================================= */
+
+gps.onclick=()=>{
+
+ if(!navigator.geolocation){
+
+  status.textContent=
+  "Browser geolocation unavailable.";
+
+  return;
+
+ }
+
+ status.textContent=
+ "GPS permission maang raha hai...";
+
+ navigator.geolocation.getCurrentPosition(
+
+  async p=>{
+
+   const la=
+   p.coords.latitude;
+
+   const lo=
+   p.coords.longitude;
+
+   lat.value=
+   la.toFixed(6);
+
+   lon.value=
+   lo.toFixed(6);
+
+   place.value=
+   `GPS ${la.toFixed(4)}, ${lo.toFixed(4)}`;
+
+   /*
+    Reverse geocode
+   */
+
+   try{
+
+    const u=
+    "https://nominatim.openstreetmap.org/reverse"+
+    "?format=jsonv2"+
+    "&lat="+encodeURIComponent(la)+
+    "&lon="+encodeURIComponent(lo)+
+    "&zoom=10"+
+    "&addressdetails=1";
+
+    const r=await fetch(u);
+
+    if(r.ok){
+
+     const x=await r.json();
+
+     if(x.display_name)
+     place.value=x.display_name;
+
+    }
+
+   }catch(e){}
+
+   status.textContent=
+   "Location detected. Ab Calculate dabayein.";
+
+  },
+
+  e=>{
+
+   status.textContent=
+   "Location permission/error: "+e.message;
+
+  },
+
+  {
+   enableHighAccuracy:true,
+   timeout:15000,
+   maximumAge:60000
+  }
+
+ );
+
+};
+
+
+/* =========================================================
+   WEEKLY
+========================================================= */
 
 async function weeklyRun(){
- weekly.innerHTML="Loading 7 days…";
- const base=new Date(week.value+"T12:00:00");let all=[], seen=new Set();
- for(let i=0;i<7;i++){let d=new Date(base);d.setDate(d.getDate()+i);let ds=iso(d);let bs=normalizeBodies(await chart(ds,"12:00:00"));
- bs.forEach(b=>{nakTargets(b.nak).forEach(t=>{const key=ds+"|"+b.key+"|"+t;if(!seen.has(key)){seen.add(key);all.push({date:ds,planet:b.name||b.key,from:fmt(b),to:t})}})});
+
+ weekly.innerHTML=
+ "Loading 7 days...";
+
+ try{
+
+  const base=
+  new Date(week.value+"T12:00:00");
+
+  let html=`
+
+  <table>
+  <thead>
+  <tr>
+  <th>Date</th>
+  <th>Planet</th>
+  <th>Current</th>
+  <th>Vedha Target</th>
+  </tr>
+  </thead>
+  <tbody>`;
+
+  for(let i=0;i<7;i++){
+
+   const d=
+   new Date(base);
+
+   d.setDate(
+    d.getDate()+i
+   );
+
+   const ds=iso(d);
+
+   const bs=
+   normalizeBodies(
+    await chart(ds,"12:00:00")
+   );
+
+   bs.forEach(b=>{
+
+    nakTargets(b.nak)
+    .forEach(t=>{
+
+     html+=`
+
+     <tr>
+     <td>${ds}</td>
+     <td>${b.name}</td>
+     <td>${fmt(b)}</td>
+     <td>${t}</td>
+     </tr>`;
+
+    });
+
+   });
+
+  }
+
+  html+=
+  "</tbody></table>";
+
+  weekly.innerHTML=html;
+
+ }catch(e){
+
+  weekly.innerHTML=
+  `<div class="bad">Error: ${e.message}</div>`;
+
  }
- weekly.innerHTML="<table><thead><tr><th>Date</th><th>Planet</th><th>Planet's Nakshatra</th><th>Vedha on</th></tr></thead><tbody>"+all.map(x=>`<tr><td>${x.date}</td><td>${x.planet}</td><td>${x.from}</td><td>${x.to}</td></tr>`).join("")+"</tbody></table>";
+
 }
+
 weeklyBtn.onclick=weeklyRun;
 
-futureBtn.onclick=async()=>{future.innerHTML="Calculating…";try{let bs=normalizeBodies(await chart(futureDate.value,futureTime.value||"12:00"));future.innerHTML="<table><thead><tr><th>Planet</th><th>Sidereal</th><th>Nakshatra/Pada</th><th>Vedha Nakshatra(s)</th></tr></thead><tbody>"+bs.map(b=>`<tr><td>${b.name||b.key}</td><td>${signs[Math.floor(b.lon/30)]} ${((b.lon%30)+30)%30).toFixed(2)}°</td><td>${fmt(b)}</td><td>${nakTargets(b.nak).map(t=>`<span class="badge">${t}</span>`).join("")}</td></tr>`).join("")+"</tbody></table>"}catch(e){future.textContent=e.message}};
 
-function dateRange(a,b){let arr=[];let d=new Date(a+"T12:00:00"),end=new Date(b+"T12:00:00");for(;d<=end;d.setDate(d.getDate()+1))arr.push(iso(d));return arr}
-searchBtn.onclick=async()=>{
- searchResult.innerHTML="Searching daily ephemeris…";
- const a=s1.value,b=s2.value, dates=dateRange(from.value,to.value),out=[];
- for(const d of dates){
-  const bs=normalizeBodies(await chart(d,"12:00:00"));const A=bs.find(x=>x.key===a),B=bs.find(x=>x.key===b);if(!A||!B)continue;
-  const hits=nakTargets(A.nak);
-  if(hits.includes(B.nak))out.push({date:d,A,B,kind:"Nakshatra Vedha"});
-  if(padaOnly.checked && A.nak===B.nak && A.pada!==B.pada)out.push({date:d,A,B,kind:`Same Nakshatra • Pada ${A.pada} → Pada ${B.pada}`});
+/* =========================================================
+   FUTURE
+========================================================= */
+
+futureBtn.onclick=async()=>{
+
+ future.innerHTML=
+ "Calculating...";
+
+ try{
+
+  const bs=
+  normalizeBodies(
+   await chart(
+    futureDate.value,
+    futureTime.value||"12:00"
+   )
+  );
+
+  future.innerHTML=`
+
+  <table>
+  <thead>
+  <tr>
+  <th>Planet</th>
+  <th>Sidereal</th>
+  <th>Nakshatra</th>
+  <th>Pada</th>
+  <th>Vedha Targets</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  ${bs.map(b=>`
+
+  <tr>
+
+  <td>${b.name}</td>
+
+  <td>${degreeFmt(b)}</td>
+
+  <td>${b.nak}</td>
+
+  <td>${b.pada}</td>
+
+  <td>
+  ${nakTargets(b.nak)
+  .map(x=>`<span class="badge">${x}</span>`)
+  .join("")}
+  </td>
+
+  </tr>
+
+  `).join("")}
+
+  </tbody>
+  </table>`;
+
+ }catch(e){
+
+  future.textContent=e.message;
+
  }
- searchResult.innerHTML="<div class='small'>Daily 12:00 local snapshots are used for the date-range search. Exact ingress/pada boundary timing is not approximated as an event.</div><table><thead><tr><th>Date</th><th>Planet 1</th><th>Planet 2</th><th>Result</th></tr></thead><tbody>"+out.map(x=>`<tr><td>${x.date}</td><td>${x.A.name||x.A.key}<br>${fmt(x.A)}</td><td>${x.B.name||x.B.key}<br>${fmt(x.B)}</td><td>${x.kind}</td></tr>`).join("")+"</tbody></table>";
+
 };
 
-// Initial location defaults only for calculation fallback; no fake planetary data.
-lat.value="";lon.value="";
+
+/* =========================================================
+   EXACT BOUNDARY SEARCH
+========================================================= */
+
+/*
+  Coarse scan 6 hours.
+  Jab state change mile to binary refinement.
+  Final boundary approximately 1 second ke andar.
+*/
+
+async function exactBoundary(
+ a,
+ b,
+ startMs,
+ endMs,
+ predicate
+){
+
+ let lo=startMs;
+ let hi=endMs;
+
+ const initial=
+ await predicate(new Date(lo));
+
+ for(let i=0;i<22;i++){
+
+  if(hi-lo<=1000)
+  break;
+
+  const mid=
+  Math.floor((lo+hi)/2);
+
+  const value=
+  await predicate(new Date(mid));
+
+  if(value===initial)
+   lo=mid;
+  else
+   hi=mid;
+
+ }
+
+ return new Date(hi);
+
+}
+
+
+/* =========================================================
+   EXACT NAKSHATRA / PADA EVENTS
+========================================================= */
+
+async function planetAt(
+ planetKey,
+ d
+){
+
+ const data=
+ await chart(
+  d.toISOString().slice(0,10),
+  d.toISOString().slice(11,19)
+ );
+
+ const bs=
+ normalizeBodies(data);
+
+ return bs.find(
+  x=>x.key===planetKey
+ );
+
+}
+
+
+async function findStateChanges(
+ planetKey,
+ fromDate,
+ toDate
+){
+
+ const start=
+ new Date(fromDate+"T00:00:00");
+
+ const end=
+ new Date(toDate+"T23:59:59");
+
+ const step=
+ 6*60*60*1000;
+
+ const events=[];
+
+ let previous=
+ await planetAt(
+  planetKey,
+  start
+ );
+
+ let previousNak=
+ previous?.nak;
+
+ let previousPada=
+ previous?.pada;
+
+ for(
+  let ms=start.getTime()+step;
+  ms<=end.getTime();
+  ms+=step
+ ){
+
+  const d=new Date(ms);
+
+  const current=
+  await planetAt(
+   planetKey,
+   d
+  );
+
+  if(!current)
+   continue;
+
+  if(
+   current.nak!==previousNak
+  ){
+
+   const boundary=
+   await exactBoundary(
+    planetKey,
+    planetKey,
+    ms-step,
+    ms,
+    async x=>{
+     const z=
+     await planetAt(
+      planetKey,
+      x
+     );
+     return z?.nak===previousNak;
+    }
+   );
+
+   events.push({
+    type:"Nakshatra",
+    planet:current.name,
+    from:previousNak,
+    to:current.nak,
+    time:boundary
+   });
+
+  }
+
+  if(
+   current.nak===previousNak &&
+   current.pada!==previousPada
+  ){
+
+   const boundary=
+   await exactBoundary(
+    planetKey,
+    planetKey,
+    ms-step,
+    ms,
+    async x=>{
+     const z=
+     await planetAt(
+      planetKey,
+      x
+     );
+     return z?.pada===previousPada;
+    }
+   );
+
+   events.push({
+    type:"Pada",
+    planet:current.name,
+    from:`${current.nak} Pada ${previousPada}`,
+    to:`${current.nak} Pada ${current.pada}`,
+    time:boundary
+   });
+
+  }
+
+  previousNak=
+  current.nak;
+
+  previousPada=
+  current.pada;
+
+ }
+
+ return events;
+
+}
+
+
+/* =========================================================
+   PLANET-TO-PLANET EXACT SEARCH
+========================================================= */
+
+async function searchExact(){
+
+ searchResult.innerHTML=
+ `<div class="status">
+ Exact search chal rahi hai. Moon ke case mein
+ requests zyada ho sakti hain.
+ </div>`;
+
+ const aKey=s1.value;
+ const bKey=s2.value;
+
+ const start=
+ new Date(from.value+"T00:00:00");
+
+ const end=
+ new Date(to.value+"T23:59:59");
+
+ const step=
+ 6*60*60*1000;
+
+ const results=[];
+
+ let previous=null;
+
+ for(
+  let ms=start.getTime();
+  ms<=end.getTime();
+  ms+=step
+ ){
+
+  const d=new Date(ms);
+
+  const data=
+  await chart(
+   d.toISOString().slice(0,10),
+   d.toISOString().slice(11,19)
+  );
+
+  const bs=
+  normalizeBodies(data);
+
+  const A=
+  bs.find(x=>x.key===aKey);
+
+  const B=
+  bs.find(x=>x.key===bKey);
+
+  if(!A||!B)
+   continue;
+
+  const rel=
+  relation(A,B);
+
+  const state=
+  JSON.stringify(rel);
+
+  if(
+   previous &&
+   previous.state!==state
+  ){
+
+   /*
+    Relation boundary refine
+   */
+
+   const boundary=
+   await exactBoundary(
+    aKey,
+    bKey,
+    ms-step,
+    ms,
+    async x=>{
+
+     const data2=
+     await chart(
+      x.toISOString().slice(0,10),
+      x.toISOString().slice(11,19)
+     );
+
+     const bs2=
+     normalizeBodies(data2);
+
+     const aa=
+     bs2.find(x=>x.key===aKey);
+
+     const bb=
+     bs2.find(x=>x.key===bKey);
+
+     if(!aa||!bb)
+     return false;
+
+     return JSON.stringify(
+      relation(aa,bb)
+     )===previous.state;
+
+    }
+   );
+
+   results.push({
+    time:boundary,
+    A:previous.A,
+    B:previous.B,
+    rel:previous.rel,
+    changedTo:rel
+   });
+
+  }
+
+  previous={
+   state,
+   A,
+   B,
+   rel
+  };
+
+ }
+
+ renderSearchResults(results);
+
+}
+
+
+/* =========================================================
+   SEARCH RESULT FILTER
+========================================================= */
+
+function filterRelation(rel){
+
+ if(
+  filterVedha.checked &&
+  !rel.aVedha
+ )
+ return false;
+
+ if(
+  filterMutual.checked &&
+  !rel.mutualVedha
+ )
+ return false;
+
+ if(
+  filterSamePada.checked &&
+  !rel.samePada
+ )
+ return false;
+
+ if(
+  filterD1.checked &&
+  !(rel.aD1||rel.bD1)
+ )
+ return false;
+
+ if(
+  filterMutualD1.checked &&
+  !rel.mutualD1
+ )
+ return false;
+
+ if(
+  filterSameRashi.checked &&
+  !rel.sameRashi
+ )
+ return false;
+
+ return true;
+
+}
+
+
+function yn(v){
+
+ return v?
+ `<span class="yes">YES</span>`:
+ `<span class="no">NO</span>`;
+
+}
+
+
+function renderSearchResults(results){
+
+ const filtered=
+ results.filter(
+  x=>filterRelation(x.rel)
+ );
+
+ if(!filtered.length){
+
+  searchResult.innerHTML=
+  `<div class="status">
+   Selected filters ke according exact boundary event nahi mila.
+   </div>`;
+
+  return;
+
+ }
+
+ let html=`
+
+ <div class="section-title">
+ Exact boundary events
+ </div>
+
+ <table>
+
+ <thead>
+ <tr>
+ <th>Date / Time</th>
+ <th>Planet 1</th>
+ <th>Planet 2</th>
+ <th>Planet 1 → Planet 2 Vedha</th>
+ <th>Reverse Vedha</th>
+ <th>Mutual Vedha</th>
+ <th>Same Rashi</th>
+ <th>D1 P1→P2</th>
+ <th>D1 P2→P1</th>
+ <th>Mutual D1</th>
+ <th>Same Pada</th>
+ </tr>
+ </thead>
+
+ <tbody>`;
+
+ filtered.forEach(x=>{
+
+  html+=`
+
+  <tr>
+
+  <td class="mono">
+  ${x.time.toLocaleString()}
+  </td>
+
+  <td>
+  <b>${x.A.name}</b><br>
+  ${x.A.nak} Pada ${x.A.pada}<br>
+  ${x.A.sign}
+  </td>
+
+  <td>
+  <b>${x.B.name}</b><br>
+  ${x.B.nak} Pada ${x.B.pada}<br>
+  ${x.B.sign}
+  </td>
+
+  <td>${yn(x.rel.aVedha)}</td>
+
+  <td>${yn(x.rel.bVedha)}</td>
+
+  <td>${yn(x.rel.mutualVedha)}</td>
+
+  <td>${yn(x.rel.sameRashi)}</td>
+
+  <td>${yn(x.rel.aD1)}</td>
+
+  <td>${yn(x.rel.bD1)}</td>
+
+  <td>${yn(x.rel.mutualD1)}</td>
+
+  <td>${yn(x.rel.samePada)}</td>
+
+  </tr>`;
+
+ });
+
+ html+=
+ `</tbody></table>`;
+
+ searchResult.innerHTML=html;
+
+}
+
+
+/* =========================================================
+   SEARCH BUTTON
+========================================================= */
+
+searchBtn.onclick=async()=>{
+
+ try{
+
+  await searchExact();
+
+ }catch(e){
+
+  searchResult.innerHTML=
+  `<div class="bad">
+  Search error: ${e.message}
+  </div>`;
+
+ }
+
+};
+
+
+/* =========================================================
+   PDF REPORT
+========================================================= */
+
+pdfBtn.onclick=()=>{
+
+ /*
+  Android/browser Print dialog.
+  User can select "Save as PDF".
+ */
+
+ window.print();
+
+};
+
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+lat.value="";
+lon.value="";
+
 </script>
+
 </body>
 </html>
