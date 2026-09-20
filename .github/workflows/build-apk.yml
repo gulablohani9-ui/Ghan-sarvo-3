@@ -24,22 +24,21 @@ jobs:
         uses: android-actions/setup-android@v4
 
       - name: Accept Android SDK licenses
-        shell: bash
-        run: |
-          yes | sdkmanager --licenses > /dev/null || true
+        run: yes | sdkmanager --licenses > /dev/null || true
 
-      - name: Install Android SDK packages
-        shell: bash
+      - name: Install Android SDK
         run: |
           sdkmanager "platform-tools"
           sdkmanager "platforms;android-35"
           sdkmanager "build-tools;35.0.0"
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: gradle assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
